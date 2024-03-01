@@ -16,7 +16,17 @@ app.use(cors({ origin: clientHost })); // this enables requests from client
 // landing page
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
     res.json({ name: "Expedia clone api" });
-})
+});
+
+// error handling
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.error("Error from the API:", err);
+    res.sendStatus(500);
+});
+
+app.use((req: Request, res: Response) => {
+    res.sendStatus(404);
+});
 
 const port = process.env.PORT || 8080;
 app.listen(port, async () => {
