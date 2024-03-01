@@ -1,0 +1,25 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const app = (0, express_1.default)();
+const mongoose = require("mongoose");
+const cors = require("cors");
+if (process.env.NODE_ENV === "development")
+    require("../secrets.js");
+const dbUri = process.env.DBURI;
+const clientHost = process.env.NODE_ENV === "development" ?
+    "http://localhost:4200" : process.env.CLIENT_HOST;
+// common middleware
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: false }));
+app.use(cors({ origin: clientHost }));
+// landing page
+app.get("/", (req, res, next) => {
+    res.json({ name: "Expedia clone api" });
+});
+app.listen(8080, async () => {
+    console.log("Server listening on port 8080");
+});

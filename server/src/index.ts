@@ -1,22 +1,24 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const express = require("express");
+import express, { Request, Response, NextFunction } from "express";
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-if (process.env.NODE_ENV === "development")
-    require("../secrets.js");
-const dbUri = process.env.DBURI;
-const clientHost = process.env.NODE_ENV === "development" ?
+
+if (process.env.NODE_ENV === "development") require("../secrets.js");
+const dbUri: string | undefined = process.env.DBURI;
+const clientHost: string | undefined = process.env.NODE_ENV === "development" ? 
     "http://localhost:4200" : process.env.CLIENT_HOST;
+
 // common middleware
-app.use(express.json({ extended: false }));
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ origin: clientHost }));
+
 // landing page
-app.get("/", (req, res, next) => {
+app.get("/", (req: Request, res: Response, next: NextFunction) => {
     res.json({ name: "Expedia clone api" });
-});
+})
+
+
 app.listen(8080, async () => {
     console.log("Server listening on port 8080");
-});
+})
