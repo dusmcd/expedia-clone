@@ -1,0 +1,23 @@
+<div class="panel panel-default">
+    <div class="panel-heading"></div>
+    <div class="panel-body">
+        <form class="form-inline" id="search-form" [formGroup]="searchForm">
+            <div class="form-group input-group">
+                <label for="location" class="sr-only">Location</label>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
+                <input type="text" class="form-control" id="location" placeholder="Going to" formControlName="location">
+            </div>
+            <div class="form-group input-group">
+                <label for="dates" class="sr-only">Dates</label>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                <input class="form-control" id="dates" placeholder="Dates" formControlName="dates">
+            </div>
+            <div class="form-group input-group">
+                <label for="travelers" class="sr-only">Travelers</label>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                <input type="text" class="form-control" id="travelers" placeholder="Travelers" formControlName="guests">
+            </div>
+            <button type="button" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+</div>

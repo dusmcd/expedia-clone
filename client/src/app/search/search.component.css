@@ -1,0 +1,12 @@
+#search-form {
+    display: flex;
+    justify-content: space-around;
+}
+
+.panel-heading {
+    background: none;
+}
+
+.panel {
+    margin-top: 30px;
+}
