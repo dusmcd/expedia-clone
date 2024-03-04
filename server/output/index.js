@@ -18,7 +18,6 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cors_1.default)({ origin: clientHost })); // this enables requests from client
 // landing page
 app.get("/", (req, res, next) => {
-    throw new Error("Suckas!");
     res.json({ name: "Expedia clone api" });
 });
 // error handling

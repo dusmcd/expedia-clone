@@ -16,6 +16,8 @@ This is the model for all the entities, their fields, and how they will be inter
 - Hotel (reference)
 - Payment Method
 - Room (reference from Hotels)
+- Number of Guests
+- User (reference)
 
 ## Hotels
 **Fields**
@@ -25,20 +27,18 @@ This is the model for all the entities, their fields, and how they will be inter
 - Average Rating (pseudo-field)
 - Availability (pseudo-field)
 - Amenities (array)
-- Rooms (array)
-```js
-[{
-    roomId: number,
-    beds: number,
-    rate: number,
-    roomNumber: number
-}]
-```
+- Rooms (array of room references)
+
+## Rooms
+**Fields**
+- beds
+- rate
+- room number
 - Image (string)
 
 ## Reviews
 **Fields**
-- Entity (reference)
+- Hotel (reference)
 - User (reference)
 - Points (out of 10)
 - Text
