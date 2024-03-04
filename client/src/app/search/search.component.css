@@ -3,10 +3,10 @@
     justify-content: space-around;
 }
 
-.panel-heading {
+.card-header {
     background: none;
 }
 
-.panel {
+.card {
     margin-top: 30px;
 }
