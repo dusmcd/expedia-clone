@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
-import { SearchComponent } from './search/search.component';
 import { LandingComponent } from './landing/landing.component';
 
 @Component({

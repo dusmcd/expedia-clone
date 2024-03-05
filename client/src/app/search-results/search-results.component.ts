@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SearchService } from './search.service';
 import { Hotel } from '../interfaces/hotel';
+import { SearchComponent } from '../search/search.component';
 
 @Component({
   selector: 'app-search-results',
   standalone: true,
-  imports: [],
+  imports: [SearchComponent],
   templateUrl: './search-results.component.html',
   styleUrl: './search-results.component.css'
 })

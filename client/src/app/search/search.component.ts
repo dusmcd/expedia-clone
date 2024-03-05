@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +17,7 @@ import { SearchDate } from '../interfaces/search';
 
 export class SearchComponent {
   private today: Date = new Date(Date.now());
+  @Input() landingView = true;
   searchForm = new FormGroup({
     location: new FormControl(""),
     dates: new FormControl<SearchDate>({ year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() }),
