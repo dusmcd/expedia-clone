@@ -1,3 +1,29 @@
+<nav class="navbar navbar-expand-lg" id="home-nav">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <img src="https://www.expedia.com/_dms/header/logo.svg?locale=en_US&siteid=1&2&6f9ec7db" alt="Expedia" width="126" height="28">
+    </a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Shop travel
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#"><i class="bi bi-building"></i> Hotels</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-car-front"></i> Rental cars</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item"><a href="#" class="nav-link">List your property</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Support</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Trips</a></li>
+        <li class="nav-item"><a href="#" class="nav-link bi bi-bell-fill"></a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Sign in</a></li>
+      </ul>
+  </div>
+</nav>
+
 <main class="container">
-  <app-search></app-search>
+  <router-outlet></router-outlet>
 </main>
