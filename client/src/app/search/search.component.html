@@ -1,22 +1,37 @@
 <div class="card">
     <div class="card-header"></div>
     <div class="card-body">
-        <form class="row row-cols-lg-auto g-3 align-items-center" id="search-form">
+        <form class="row row-cols-lg-auto g-3 align-items-center" id="search-form" [formGroup]="searchForm">
             <div class="col-12">
               <label class="visually-hidden" for="location">Location</label>
               <div class="input-group">
+                <button type="button" class="btn btn-outline-secondary bi bi-geo-alt-fill"></button>
                 <input type="text" class="form-control" id="location" placeholder="Going to">
               </div>
             </div>
           
             <div class="col-12">
               <label class="visually-hidden" for="dates">Dates</label>
-              <input type="text" class="form-control" id="dates" placeholder="Dates">
+              <div class="input-group">
+                  <button type="button" class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()"></button>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    id="dates" 
+                    placeholder="Dates"
+                    formControlName="dates"
+                    ngbDatepicker
+                    #d="ngbDatepicker"
+                    >
+              </div>
             </div>
           
             <div class="col-12">
                 <label class="visually-hidden" for="guests">Travellers</label>
-                <input type="text" class="form-control" id="guests" placeholder="Travellers">
+                <div class="input-group">
+                    <button type="button" class="btn-outline-secondary bi bi-person-fill"></button>
+                    <input type="text" class="form-control" id="guests" placeholder="Travellers">
+                </div>
             </div>
           
             <div class="col-12">
