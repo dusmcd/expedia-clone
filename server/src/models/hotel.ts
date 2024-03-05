@@ -3,7 +3,8 @@ import mongoose, { Schema } from "mongoose";
 const roomSchema = new Schema({
     roomNumber: Number,
     rate: Number,
-    beds: Number
+    beds: Number,
+    capacity: Number
 });
 
 export const RoomModel = mongoose.model("Rooms", roomSchema);
@@ -70,4 +71,5 @@ export interface Room {
     roomNumber: number;
     rate: number;
     beds: number;
+    capacity: number
 }
