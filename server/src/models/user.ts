@@ -15,7 +15,6 @@ const userSchema = new Schema({
     },
     type: {
         enum: ["Guest", "Member", "Entity"],
-        default: "Guest"
     },
     bookings: {
         type: [Schema.Types.ObjectId],

@@ -28,7 +28,8 @@ const mongoose_1 = __importStar(require("mongoose"));
 const roomSchema = new mongoose_1.Schema({
     roomNumber: Number,
     rate: Number,
-    beds: Number
+    beds: Number,
+    capacity: Number
 });
 exports.RoomModel = mongoose_1.default.model("Rooms", roomSchema);
 const hotelSchema = new mongoose_1.Schema({

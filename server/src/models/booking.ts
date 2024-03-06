@@ -33,7 +33,7 @@ const bookingSchema = new Schema({
 export const BookingModel = mongoose.model("Bookings", bookingSchema);
 
 export interface Booking {
-    dates: [Date];
+    dates: Date[];
     room: string;
     hotel: string;
     numberOfGuests: number;
