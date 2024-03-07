@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import { hotelRouter } from "./routes";
 const app = express();
 
 if (process.env.NODE_ENV === "development") require("../secrets.js");
@@ -12,6 +13,9 @@ const clientHost = process.env.NODE_ENV === "development" ?
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ origin: clientHost })); // this enables requests from client
+
+// api routes
+app.use("/api/hotels", hotelRouter);
 
 // landing page
 app.get("/", (req: Request, res: Response, next: NextFunction) => {

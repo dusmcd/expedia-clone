@@ -5,7 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-server": "export NODE_ENV=development && npx tsc && node ./output/index.js"
+    "start-server": "export NODE_ENV=development && npx tsc && node ./output/index.js",
+    "set-seed": "npx tsc ./seed/seed-data.ts && node ./seed/seed-data.js"
   },
   "author": "Dustin McDowell",
   "license": "ISC",

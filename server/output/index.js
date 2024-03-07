@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
+const routes_1 = require("./routes");
 const app = (0, express_1.default)();
 if (process.env.NODE_ENV === "development")
     require("../secrets.js");
@@ -16,6 +17,8 @@ const clientHost = process.env.NODE_ENV === "development" ?
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cors_1.default)({ origin: clientHost })); // this enables requests from client
+// api routes
+app.use("/api/hotels", routes_1.hotelRouter);
 // landing page
 app.get("/", (req, res, next) => {
     res.json({ name: "Expedia clone api" });

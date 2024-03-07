@@ -40,7 +40,6 @@ const userSchema = new mongoose_1.Schema({
     },
     type: {
         enum: ["Guest", "Member", "Entity"],
-        default: "Guest"
     },
     bookings: {
         type: [mongoose_1.Schema.Types.ObjectId],
