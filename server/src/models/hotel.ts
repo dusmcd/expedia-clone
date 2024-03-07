@@ -4,7 +4,8 @@ const roomSchema = new Schema({
     roomNumber: Number,
     rate: Number,
     beds: Number,
-    capacity: Number
+    capacity: Number,
+    unavailable: [Date]
 });
 
 export const RoomModel = mongoose.model("Rooms", roomSchema);

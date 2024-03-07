@@ -29,7 +29,8 @@ const roomSchema = new mongoose_1.Schema({
     roomNumber: Number,
     rate: Number,
     beds: Number,
-    capacity: Number
+    capacity: Number,
+    unavailable: [Date]
 });
 exports.RoomModel = mongoose_1.default.model("Rooms", roomSchema);
 const hotelSchema = new mongoose_1.Schema({

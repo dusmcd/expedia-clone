@@ -9,15 +9,16 @@ exports.router = express_1.default.Router();
 const models_1 = require("../models");
 exports.router.get("/", async (req, res, next) => {
     const date = req.query.dates ? new Date(req.query.dates.toString()) : new Date(Date.now());
-    console.dir(date);
     const searchParams = { location: req.query.location, guests: Number(req.query.guests), dates: date };
-    const bookings = await models_1.BookingModel.find({}).where("dates").ne(searchParams.dates.valueOf()).populate({
-        path: "hotel",
-        match: { address: { city: searchParams.location } },
-        populate: {
-            path: "rooms",
-            match: { capacity: Number(searchParams.guests) }
-        }
+    const hotels = await models_1.HotelModel.find({ "address.city": searchParams.location }).populate({
+        path: "rooms",
+        match: { unavailable: { $ne: searchParams.dates }, capacity: { $gte: searchParams.guests } }
     });
-    res.json(bookings.map(booking => booking.hotel));
+    const results = hotels.filter(hotel => {
+        if (hotel.rooms.length)
+            return true;
+        return false;
+    });
+    console.log("NUMBER OF RESULTS:", results.length);
+    res.json(results);
 });

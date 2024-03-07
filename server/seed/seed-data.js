@@ -35,6 +35,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var models_1 = require("../src/models");
 var mongoose_1 = require("mongoose");
@@ -83,7 +92,7 @@ function makeHotels() {
 }
 function makeRooms() {
     var rooms = [];
-    for (var i = 1; i <= 1000; i++) {
+    for (var i = 1; i <= 10000; i++) {
         var room = {
             roomNumber: Math.round(Math.random() * 200),
             rate: Math.round(Math.random() * 1000),
@@ -116,11 +125,11 @@ function makeBookings() {
 }
 function combine() {
     return __awaiter(this, void 0, void 0, function () {
-        var rooms_1, i_1, hotelArr, hotels_1, bookingArr, err_1;
+        var rooms_1, i_1, hotelArr, hotels_1, bookingArr, j, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 5, , 6]);
+                    _a.trys.push([0, 9, , 10]);
                     require("../secrets");
                     return [4 /*yield*/, mongoose_1.default.connect(process.env.URI)];
                 case 1:
@@ -133,9 +142,9 @@ function combine() {
                     hotelArr = makeHotels().map(function (hotel) {
                         // @ts-ignore
                         hotel.rooms = [];
-                        for (var k = 1; k <= 10; k++) {
+                        for (var k = 1; k <= 100; k++) {
                             // @ts-ignore
-                            // pushing in 10 rooms per hotel (100 hotels and 1000 rooms)
+                            // pushing in 100 rooms per hotel (100 hotels and 10,000 rooms)
                             hotel.rooms.push(rooms_1[i_1]);
                             i_1++;
                         }
@@ -149,20 +158,32 @@ function combine() {
                         //@ts-ignore
                         booking.hotel = hotels_1[randNumber];
                         // @ts-ignore
-                        booking.room = hotels_1[randNumber].rooms[Math.round(Math.random() * 9)];
-                        // console.log("HOTEL:", hotels[randNumber]);
-                        // console.log("BOOKING:", booking)
+                        booking.room = hotels_1[randNumber].rooms[Math.round(Math.random() * 99)];
                         return booking;
                     });
-                    return [4 /*yield*/, models_1.BookingModel.insertMany(bookingArr)];
+                    j = 0;
+                    _a.label = 4;
                 case 4:
-                    _a.sent();
-                    return [3 /*break*/, 6];
+                    if (!(j < bookingArr.length)) return [3 /*break*/, 7];
+                    //@ts-ignore
+                    return [4 /*yield*/, models_1.RoomModel.findByIdAndUpdate(bookingArr[j].room, { unavailable: __spreadArray([], bookingArr[j].dates, true) })];
                 case 5:
+                    //@ts-ignore
+                    _a.sent();
+                    _a.label = 6;
+                case 6:
+                    j++;
+                    return [3 /*break*/, 4];
+                case 7: return [4 /*yield*/, models_1.BookingModel.insertMany(bookingArr)];
+                case 8:
+                    _a.sent();
+                    console.log("SEED DATA GENERATED");
+                    return [3 /*break*/, 10];
+                case 9:
                     err_1 = _a.sent();
                     console.error(err_1);
-                    return [3 /*break*/, 6];
-                case 6: return [2 /*return*/];
+                    return [3 /*break*/, 10];
+                case 10: return [2 /*return*/];
             }
         });
     });

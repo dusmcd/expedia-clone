@@ -50,7 +50,7 @@ function makeHotels() {
 
 function makeRooms() {
     const rooms = [];
-    for (let i = 1; i <= 1000; i++) {
+    for (let i = 1; i <= 10_000; i++) {
         const room = {
             roomNumber: Math.round(Math.random() * 200),
             rate: Math.round(Math.random() * 1000),
@@ -93,9 +93,9 @@ async function combine() {
         const hotelArr = makeHotels().map(hotel => {
             // @ts-ignore
             hotel.rooms = [];
-            for (let k = 1; k <= 10; k++) {
+            for (let k = 1; k <= 100; k++) {
                 // @ts-ignore
-                // pushing in 10 rooms per hotel (100 hotels and 1000 rooms)
+                // pushing in 100 rooms per hotel (100 hotels and 10,000 rooms)
                 hotel.rooms.push(rooms[i]);
                 i++;
             }
@@ -109,11 +109,13 @@ async function combine() {
             //@ts-ignore
             booking.hotel = hotels[randNumber];
             // @ts-ignore
-            booking.room = hotels[randNumber].rooms[Math.round(Math.random() * 9)];
-            // console.log("HOTEL:", hotels[randNumber]);
-            // console.log("BOOKING:", booking)
+            booking.room = hotels[randNumber].rooms[Math.round(Math.random() * 99)];
             return booking;
-        })
+        });
+        for (let j = 0; j < bookingArr.length; j++) {
+            //@ts-ignore
+            await RoomModel.findByIdAndUpdate(bookingArr[j].room, { unavailable: [...bookingArr[j].dates] })
+        }
         await BookingModel.insertMany(bookingArr);
         console.log("SEED DATA GENERATED");
     } catch(err) {
