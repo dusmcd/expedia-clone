@@ -17,7 +17,6 @@ import { SearchDate } from '../interfaces/search';
 
 export class SearchComponent {
   private today: Date = new Date(Date.now());
-  @Input() landingView = true;
   searchForm = new FormGroup({
     location: new FormControl(""),
     dates: new FormControl<SearchDate>({ year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() }),
