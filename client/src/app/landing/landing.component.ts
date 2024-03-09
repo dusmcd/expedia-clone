@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchComponent } from '../search/search.component';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
-export class LandingComponent {
-  marketingView = true;
+export class LandingComponent implements OnInit {
+  marketingView: boolean;
+
+  ngOnInit(): void {
+    this.marketingView = true;
+  }
 }
