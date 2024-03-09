@@ -1,14 +1,15 @@
 <section id="search-results">
-  <article class="card mb-3" style="max-width: 540px;" *ngFor="let result of results">
+  <article class="card mb-3" style="max-width: 700px;" *ngFor="let result of results">
       <div class="row g-0">
         <div class="col-md-4">
           <img [src]="result.image" class="img-fluid rounded-start" [alt]="result.owner">
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h5 class="card-title">{{result.owner}}</h5>
-            <p class="card-text"></p>
-            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            <h5 class="card-title">{{result.owner}} {{result.address.city}}</h5>
+            <p class="card-text">{{result.neighborhood}}</p>
+            <p class="card-text">{{result.description}}</p>
+            <p class="card-text"><small class="text-body-secondary"></small></p>
           </div>
         </div>
       </div>

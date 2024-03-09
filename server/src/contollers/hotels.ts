@@ -11,7 +11,9 @@ export const getHotelsFromSearch = async (req: Request, res: Response, next: Nex
             match: { unavailable: { $ne: searchParams.dates }, capacity: { $gte: searchParams.guests }}
         });
     
-        const results = hotels.filter(hotel => {
+        const results = hotels
+          .filter(hotel => {
+            // only want hotels that returned rooms that fit the criteria of the query
             if (hotel.rooms.length) return true
             return false
         });

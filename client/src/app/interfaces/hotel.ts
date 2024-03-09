@@ -8,4 +8,7 @@ export interface Hotel {
     }
     rooms: string[];
     owner: string;
+    neighborhood: string;
+    description: string;
+    price: number;
 }

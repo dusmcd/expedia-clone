@@ -14,7 +14,10 @@ const images = [
     "https://images.pexels.com/photos/594077/pexels-photo-594077.jpeg?auto=compress&cs=tinysrgb&w=600",
     "https://images.pexels.com/photos/705773/pexels-photo-705773.jpeg?auto=compress&cs=tinysrgb&w=600"
 
-]
+];
+const roomTypes = ["King", "Suite", "Queen"];
+const descriptions = ["Great location!", "A nice getaway", "A place to relax with friends", "Close to bars", "Beautiful scenery and newly rennovated"];
+const neighborhoods = ["Downtown", "Uptown", "Hyde Park", "Broad Acres", "Wicker Park"];
 
 interface Hotel {
     address: {
@@ -27,7 +30,9 @@ interface Hotel {
     amenities?: string[];
     rooms?: Room[]
     phoneNumber: string;
-    image?: string
+    image?: string;
+    description: string;
+    neighborhood: string;
 }
 
 interface Room {
@@ -35,7 +40,8 @@ interface Room {
     rate: number;
     beds:  number;
     capacity: number;
-    unavailable?: Date[]
+    unavailable?: Date[];
+    roomType: string;
 }
 
 interface Booking {
@@ -60,7 +66,9 @@ function makeHotels(numberOfHotels: number) {
             },
             owner: owners[Math.round(Math.random() * 4)],
             phoneNumber: "714-867-5309",
-            image: images[Math.round(Math.random() * 4)]
+            image: images[Math.round(Math.random() * 4)],
+            description: descriptions[Math.round(Math.random() * 4)],
+            neighborhood: neighborhoods[Math.round(Math.random() * 4)]
         }
         hotels.push(hotel);
     }
@@ -82,7 +90,8 @@ function makeRooms(numberOfRooms: number) {
             roomNumber: Math.round(Math.random() * 200),
             rate: Math.round(Math.random() * 1000),
             beds: Math.round(Math.random() * 3) + 1,
-            capacity: Math.round(Math.random() * 3) + 1
+            capacity: Math.round(Math.random() * 3) + 1,
+            roomType: roomTypes[Math.round(Math.random() * 2)]
         }
         rooms.push(room);
     }

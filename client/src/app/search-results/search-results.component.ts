@@ -19,7 +19,6 @@ export class SearchResultsComponent implements OnInit {
 
   getHotels() {
     this.activeRoute.queryParams.subscribe((searchParams: Params) => {
-      // using service send request to DB based on searchParams
       this.searchService.getHotels(searchParams as SearchHotel).subscribe(data => {
         this.results = data;
       });

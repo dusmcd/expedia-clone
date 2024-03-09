@@ -30,9 +30,21 @@ const roomSchema = new mongoose_1.Schema({
     rate: Number,
     beds: Number,
     capacity: Number,
-    unavailable: [Date]
+    unavailable: [Date],
+    roomType: {
+        enum: ["King", "Queen", "Suite"],
+        type: String
+    }
 });
 exports.RoomModel = mongoose_1.default.model("Rooms", roomSchema);
+const hotelVirtuals = {
+    price: {
+        get() {
+            // @ts-ignore
+            return this.rooms.map(room => room.rate).sort((a, b) => a - b)[0];
+        }
+    }
+};
 const hotelSchema = new mongoose_1.Schema({
     address: {
         street: {
@@ -72,6 +84,8 @@ const hotelSchema = new mongoose_1.Schema({
     user: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "Users"
-    }
-});
+    },
+    description: String,
+    neighborhood: String,
+}, { virtuals: hotelVirtuals, toJSON: { virtuals: true } });
 exports.HotelModel = mongoose_1.default.model("Hotels", hotelSchema);
