@@ -1,5 +1,5 @@
 <section id="search-results">
-  <article class="card mb-3" style="max-width: 700px;" *ngFor="let result of results">
+  <article class="card mb-3" style="max-width: 775px;" *ngFor="let result of results">
       <div class="row g-0">
         <div class="col-md-4">
           <img [src]="result.image" class="img-fluid rounded-start" [alt]="result.owner">
@@ -8,8 +8,17 @@
           <div class="card-body">
             <h5 class="card-title">{{result.owner}} {{result.address.city}}</h5>
             <p class="card-text">{{result.neighborhood}}</p>
-            <p class="card-text">{{result.description}}</p>
-            <p class="card-text"><small class="text-body-secondary"></small></p>
+            <p class="card-text"><small class="text-body-secondary">{{result.description}}</small></p>
+            <div class="card-text reviews-price">
+              <div class="review-info">
+                <button class="btn btn-success">9.5</button>
+                <div>
+                  <div class="mb-0"><strong>Exceptional</strong></div>
+                  <div><small class="text-body-secondary">500 reviews</small></div>
+                </div>
+              </div>
+              <div class="price-info"><strong>${{result.price}}</strong></div>
+            </div>
           </div>
         </div>
       </div>

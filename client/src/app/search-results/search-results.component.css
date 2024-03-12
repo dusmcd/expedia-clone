@@ -4,3 +4,38 @@
     align-items: center;
     margin-top: 30px;
 }
+
+.reviews-price {
+    display: flex;
+    justify-content: space-between;
+}
+
+.review-info {
+    display: flex;
+    align-items: center;
+}
+
+.card-body p:nth-of-type(1) {
+    font-size: 0.9rem;
+}
+
+.review-info button {
+    font-weight: bold;
+    margin-right: 7px;
+    font-size: 0.75em;
+    padding: 3px 6px;
+    height: 70%;
+}
+
+.price-info {
+    font-size: 1.4em;
+}
+
+.review-info strong {
+    font-size: 0.9rem;
+}
+
+.img-fluid {
+    height: 100%;
+}
+
