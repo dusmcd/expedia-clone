@@ -11,4 +11,5 @@ export interface Hotel {
     neighborhood: string;
     description: string;
     price: number;
+    amenities: string[];
 }

@@ -25,6 +25,10 @@ export class SearchResultsComponent implements OnInit {
     });
   }
 
+  private mapAmenitiesToIcons() {
+    
+  }
+
   ngOnInit(): void {
     this.getHotels();
   }

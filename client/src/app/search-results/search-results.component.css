@@ -31,11 +31,37 @@
     font-size: 1.4em;
 }
 
+.amenity {
+    margin-right: 5px;
+    font-size: 0.8em;
+}
+
+#search-filters {
+    width: 20%;
+    margin: 30px auto;
+}
+
+#ads {
+    background-color: rosybrown;
+    height: 400px;
+    width: 15%;
+    margin: 30px auto; 
+}
+
+#results-page {
+    display: flex;
+    justify-content: space-around;
+}
+
 .review-info strong {
     font-size: 0.9rem;
 }
 
 .img-fluid {
     height: 100%;
+}
+
+.form-check .form-check-input {
+    float: right;
 }
 
