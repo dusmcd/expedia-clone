@@ -12,8 +12,7 @@ const images = [
     "https://images.pexels.com/photos/161758/governor-s-mansion-montgomery-alabama-grand-staircase-161758.jpeg?auto=compress&cs=tinysrgb&w=600",
     "https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg?auto=compress&cs=tinysrgb&w=600",
     "https://images.pexels.com/photos/594077/pexels-photo-594077.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/705773/pexels-photo-705773.jpeg?auto=compress&cs=tinysrgb&w=600"
-
+    "https://images.pexels.com/photos/261395/pexels-photo-261395.jpeg?auto=compress&cs=tinysrgb&w=600"
 ];
 const roomTypes = ["King", "Suite", "Queen"];
 const descriptions = ["Great location!", "A nice getaway", "A place to relax with friends", "Close to bars", "Beautiful scenery and newly rennovated"];
@@ -126,7 +125,7 @@ async function combine(numberOfRooms: number, numberOfHotels: number, numberOfBo
         let i = 0;
         const hotelArr = makeHotels(numberOfHotels).map(hotel => {
             hotel.rooms = new Array<Room>();
-            for (let k = 1; k <= 100; k++) {
+            for (let k = 1; k <= (numberOfRooms / numberOfHotels); k++) {
                 // pushing in 100 rooms per hotel (100 hotels and 10,000 rooms)
                 hotel.rooms.push(rooms[i]);
                 i++;

@@ -49,7 +49,7 @@ var images = [
     "https://images.pexels.com/photos/161758/governor-s-mansion-montgomery-alabama-grand-staircase-161758.jpeg?auto=compress&cs=tinysrgb&w=600",
     "https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg?auto=compress&cs=tinysrgb&w=600",
     "https://images.pexels.com/photos/594077/pexels-photo-594077.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/705773/pexels-photo-705773.jpeg?auto=compress&cs=tinysrgb&w=600"
+    "https://images.pexels.com/photos/261395/pexels-photo-261395.jpeg?auto=compress&cs=tinysrgb&w=600"
 ];
 var roomTypes = ["King", "Suite", "Queen"];
 var descriptions = ["Great location!", "A nice getaway", "A place to relax with friends", "Close to bars", "Beautiful scenery and newly rennovated"];
@@ -132,7 +132,7 @@ function combine(numberOfRooms, numberOfHotels, numberOfBookings) {
                     i_1 = 0;
                     hotelArr = makeHotels(numberOfHotels).map(function (hotel) {
                         hotel.rooms = new Array();
-                        for (var k = 1; k <= 100; k++) {
+                        for (var k = 1; k <= (numberOfRooms / numberOfHotels); k++) {
                             // pushing in 100 rooms per hotel (100 hotels and 10,000 rooms)
                             hotel.rooms.push(rooms_1[i_1]);
                             i_1++;
