@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    margin: 30px 10px 0 15px;
+    
 }
 
 .reviews-price {
@@ -41,6 +42,8 @@
     margin: 30px auto;
 }
 
+
+
 #ads {
     background-color: rosybrown;
     height: 400px;
@@ -61,7 +64,20 @@
     height: 100%;
 }
 
-.form-check .form-check-input {
-    float: right;
+#compareProperties-card {
+    text-align: center;
 }
 
+#compareProperties-card label {
+    font-size: 0.9em;
+}
+
+#search-filters p {
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+#price-filter {
+    display: flex;
+    justify-content: space-between;
+}
