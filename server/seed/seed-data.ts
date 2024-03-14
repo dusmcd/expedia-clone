@@ -1,5 +1,5 @@
 import { HotelModel, BookingModel, RoomModel } from "../src/models";
-import mongoose, { Schema, mongo } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const owners = ["Hilton", "Marriott", "Windham", "Hyatt", "Embassy Suites"];
 const streets = ["123 Main St", "21721 Johnstone Dr.", "3214 Chestnut St.", "128 Golden Pond Dr.", "2646 Windsor Ave."];
@@ -12,35 +12,69 @@ const images = [
     "https://images.pexels.com/photos/161758/governor-s-mansion-montgomery-alabama-grand-staircase-161758.jpeg?auto=compress&cs=tinysrgb&w=600",
     "https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg?auto=compress&cs=tinysrgb&w=600",
     "https://images.pexels.com/photos/594077/pexels-photo-594077.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/705773/pexels-photo-705773.jpeg?auto=compress&cs=tinysrgb&w=600"
+    "https://images.pexels.com/photos/261395/pexels-photo-261395.jpeg?auto=compress&cs=tinysrgb&w=600"
+];
+const roomTypes = ["King", "Suite", "Queen"];
+const descriptions = ["Great location!", "A nice getaway", "A place to relax with friends", "Close to bars", "Beautiful scenery and newly rennovated"];
+const neighborhoods = ["Downtown", "Uptown", "Hyde Park", "Broad Acres", "Wicker Park"];
 
-]
+interface Hotel {
+    address: {
+        street: string;
+        city: string;
+        state: string;
+        zipcode: string
+    }
+    owner: string;
+    amenities?: string[];
+    rooms?: Room[]
+    phoneNumber: string;
+    image?: string;
+    description: string;
+    neighborhood: string;
+}
+
+interface Room {
+    roomNumber: number;
+    rate: number;
+    beds:  number;
+    capacity: number;
+    unavailable?: Date[];
+    roomType: string;
+}
+
+interface Booking {
+    dates: Date[];
+    payment: string;
+    numberOfGuests: number;
+    user: any;
+    hotel?: Hotel;
+    room?: Room
+}
 
 
-function makeHotels() {
-    const hotels = [];
-    for (let i = 1; i <= 100; i++) {
-        const randNumber = Math.round(Math.random() * 4)
-        const hotel = {
+function makeHotels(numberOfHotels: number) {
+    const hotels: Hotel[] = new Array<Hotel>();
+    for (let i = 1; i <= numberOfHotels; i++) {
+        const hotel: Hotel = {
             address: {
-                street: streets[randNumber],
-                city: cities[randNumber],
-                state: states[randNumber],
-                zipcode: zipcodes[randNumber]
+                street: streets[Math.round(Math.random() * 4)],
+                city: cities[Math.round(Math.random() * 11)],
+                state: states[Math.round(Math.random() * 6)],
+                zipcode: zipcodes[Math.round(Math.random() * 4)]
             },
-            owner: owners[randNumber],
+            owner: owners[Math.round(Math.random() * 4)],
             phoneNumber: "714-867-5309",
-            image: images[randNumber]
+            image: images[Math.round(Math.random() * 4)],
+            description: descriptions[Math.round(Math.random() * 4)],
+            neighborhood: neighborhoods[Math.round(Math.random() * 4)]
         }
-        // @ts-ignore
         hotels.push(hotel);
     }
     hotels.map(hotel => {
         const randNumber = Math.round(Math.random() * 3);
-        // @ts-ignore
         hotel.amenities = [];
         for (let i = 0; i < randNumber + 1; i++) {
-            // @ts-ignore
             hotel.amenities.push(amenities[i]);
         }
         return hotel;
@@ -48,53 +82,50 @@ function makeHotels() {
     return hotels;
 }
 
-function makeRooms() {
-    const rooms = [];
-    for (let i = 1; i <= 10_000; i++) {
-        const room = {
+function makeRooms(numberOfRooms: number) {
+    const rooms: Room[] = new Array<Room>();
+    for (let i = 1; i <= numberOfRooms; i++) {
+        const room: Room = {
             roomNumber: Math.round(Math.random() * 200),
             rate: Math.round(Math.random() * 1000),
             beds: Math.round(Math.random() * 3) + 1,
-            capacity: Math.round(Math.random() * 3) + 1
+            capacity: Math.round(Math.random() * 3) + 1,
+            roomType: roomTypes[Math.round(Math.random() * 2)]
         }
-        // @ts-ignore
         rooms.push(room);
     }
     return rooms;
 }
 
-function makeBookings() {
-    const bookings = [];
-    for (let i = 1; i <= 5000; i++) {
+function makeBookings(numberOfBookings: number) {
+    const bookings: Booking[] = new Array<Booking>();
+    for (let i = 1; i <= numberOfBookings; i++) {
         const randMonth = Math.round(Math.random() * 12) + 2
         const randDay = Math.round(Math.random() * 28);
         const day1 = new Date(2024,randMonth,randDay)
         const endDate = new Date(day1.valueOf());
         endDate.setDate(day1.getDate() + 2);
-        const booking = {
+        const booking: Booking = {
             dates: [day1, endDate],
             numberOfGuests: 2,
             payment: "Visa",
             user: new mongoose.Types.ObjectId()
         }
-        // @ts-ignore
         bookings.push(booking);
     }
     return bookings;
 }
 
-async function combine() {
+async function combine(numberOfRooms: number, numberOfHotels: number, numberOfBookings: number) {
     try {
         require("../secrets");
         await mongoose.connect(process.env.URI as string);
         console.log("DB Connected");
-        const rooms = await RoomModel.insertMany(makeRooms());
+        const rooms = await RoomModel.insertMany(makeRooms(numberOfRooms));
         let i = 0;
-        const hotelArr = makeHotels().map(hotel => {
-            // @ts-ignore
-            hotel.rooms = [];
-            for (let k = 1; k <= 100; k++) {
-                // @ts-ignore
+        const hotelArr = makeHotels(numberOfHotels).map(hotel => {
+            hotel.rooms = new Array<Room>();
+            for (let k = 1; k <= (numberOfRooms / numberOfHotels); k++) {
                 // pushing in 100 rooms per hotel (100 hotels and 10,000 rooms)
                 hotel.rooms.push(rooms[i]);
                 i++;
@@ -104,24 +135,27 @@ async function combine() {
         const hotels = await HotelModel.insertMany(hotelArr);
 
         // associate booking with a hotel and a room
-        const bookingArr = makeBookings().map(booking => {
+        const unavailableRooms: Promise<any>[] = [];
+        const bookingArr = makeBookings(numberOfBookings).map(booking => {
             const randNumber = Math.round(Math.random() * 99);
-            //@ts-ignore
             booking.hotel = hotels[randNumber];
             // @ts-ignore
             booking.room = hotels[randNumber].rooms[Math.round(Math.random() * 99)];
+            unavailableRooms.push(RoomModel.findByIdAndUpdate(booking.room, { unavailable: booking.dates }));
             return booking;
         });
-        for (let j = 0; j < bookingArr.length; j++) {
-            //@ts-ignore
-            await RoomModel.findByIdAndUpdate(bookingArr[j].room, { unavailable: [...bookingArr[j].dates] })
-        }
+        await Promise.all(unavailableRooms);
         await BookingModel.insertMany(bookingArr);
         console.log("SEED DATA GENERATED");
     } catch(err) {
+        await Promise.all([
+            mongoose.connection.dropCollection("bookings"),
+            mongoose.connection.dropCollection("hotels"),
+            mongoose.connection.dropCollection("rooms")
+        ])
         console.error(err);
     }
     
 }
 
-combine();
+combine(10000, 100, 5000);

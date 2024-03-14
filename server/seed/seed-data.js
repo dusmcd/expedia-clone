@@ -35,15 +35,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var models_1 = require("../src/models");
 var mongoose_1 = require("mongoose");
@@ -58,55 +49,56 @@ var images = [
     "https://images.pexels.com/photos/161758/governor-s-mansion-montgomery-alabama-grand-staircase-161758.jpeg?auto=compress&cs=tinysrgb&w=600",
     "https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg?auto=compress&cs=tinysrgb&w=600",
     "https://images.pexels.com/photos/594077/pexels-photo-594077.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/705773/pexels-photo-705773.jpeg?auto=compress&cs=tinysrgb&w=600"
+    "https://images.pexels.com/photos/261395/pexels-photo-261395.jpeg?auto=compress&cs=tinysrgb&w=600"
 ];
-function makeHotels() {
-    var hotels = [];
-    for (var i = 1; i <= 100; i++) {
-        var randNumber = Math.round(Math.random() * 4);
+var roomTypes = ["King", "Suite", "Queen"];
+var descriptions = ["Great location!", "A nice getaway", "A place to relax with friends", "Close to bars", "Beautiful scenery and newly rennovated"];
+var neighborhoods = ["Downtown", "Uptown", "Hyde Park", "Broad Acres", "Wicker Park"];
+function makeHotels(numberOfHotels) {
+    var hotels = new Array();
+    for (var i = 1; i <= numberOfHotels; i++) {
         var hotel = {
             address: {
-                street: streets[randNumber],
-                city: cities[randNumber],
-                state: states[randNumber],
-                zipcode: zipcodes[randNumber]
+                street: streets[Math.round(Math.random() * 4)],
+                city: cities[Math.round(Math.random() * 11)],
+                state: states[Math.round(Math.random() * 6)],
+                zipcode: zipcodes[Math.round(Math.random() * 4)]
             },
-            owner: owners[randNumber],
+            owner: owners[Math.round(Math.random() * 4)],
             phoneNumber: "714-867-5309",
-            image: images[randNumber]
+            image: images[Math.round(Math.random() * 4)],
+            description: descriptions[Math.round(Math.random() * 4)],
+            neighborhood: neighborhoods[Math.round(Math.random() * 4)]
         };
-        // @ts-ignore
         hotels.push(hotel);
     }
     hotels.map(function (hotel) {
         var randNumber = Math.round(Math.random() * 3);
-        // @ts-ignore
         hotel.amenities = [];
         for (var i = 0; i < randNumber + 1; i++) {
-            // @ts-ignore
             hotel.amenities.push(amenities[i]);
         }
         return hotel;
     });
     return hotels;
 }
-function makeRooms() {
-    var rooms = [];
-    for (var i = 1; i <= 10000; i++) {
+function makeRooms(numberOfRooms) {
+    var rooms = new Array();
+    for (var i = 1; i <= numberOfRooms; i++) {
         var room = {
             roomNumber: Math.round(Math.random() * 200),
             rate: Math.round(Math.random() * 1000),
             beds: Math.round(Math.random() * 3) + 1,
-            capacity: Math.round(Math.random() * 3) + 1
+            capacity: Math.round(Math.random() * 3) + 1,
+            roomType: roomTypes[Math.round(Math.random() * 2)]
         };
-        // @ts-ignore
         rooms.push(room);
     }
     return rooms;
 }
-function makeBookings() {
-    var bookings = [];
-    for (var i = 1; i <= 5000; i++) {
+function makeBookings(numberOfBookings) {
+    var bookings = new Array();
+    for (var i = 1; i <= numberOfBookings; i++) {
         var randMonth = Math.round(Math.random() * 12) + 2;
         var randDay = Math.round(Math.random() * 28);
         var day1 = new Date(2024, randMonth, randDay);
@@ -118,32 +110,29 @@ function makeBookings() {
             payment: "Visa",
             user: new mongoose_1.default.Types.ObjectId()
         };
-        // @ts-ignore
         bookings.push(booking);
     }
     return bookings;
 }
-function combine() {
+function combine(numberOfRooms, numberOfHotels, numberOfBookings) {
     return __awaiter(this, void 0, void 0, function () {
-        var rooms_1, i_1, hotelArr, hotels_1, bookingArr, j, err_1;
+        var rooms_1, i_1, hotelArr, hotels_1, unavailableRooms_1, bookingArr, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 9, , 10]);
+                    _a.trys.push([0, 6, , 8]);
                     require("../secrets");
                     return [4 /*yield*/, mongoose_1.default.connect(process.env.URI)];
                 case 1:
                     _a.sent();
                     console.log("DB Connected");
-                    return [4 /*yield*/, models_1.RoomModel.insertMany(makeRooms())];
+                    return [4 /*yield*/, models_1.RoomModel.insertMany(makeRooms(numberOfRooms))];
                 case 2:
                     rooms_1 = _a.sent();
                     i_1 = 0;
-                    hotelArr = makeHotels().map(function (hotel) {
-                        // @ts-ignore
-                        hotel.rooms = [];
-                        for (var k = 1; k <= 100; k++) {
-                            // @ts-ignore
+                    hotelArr = makeHotels(numberOfHotels).map(function (hotel) {
+                        hotel.rooms = new Array();
+                        for (var k = 1; k <= (numberOfRooms / numberOfHotels); k++) {
                             // pushing in 100 rooms per hotel (100 hotels and 10,000 rooms)
                             hotel.rooms.push(rooms_1[i_1]);
                             i_1++;
@@ -153,39 +142,37 @@ function combine() {
                     return [4 /*yield*/, models_1.HotelModel.insertMany(hotelArr)];
                 case 3:
                     hotels_1 = _a.sent();
-                    bookingArr = makeBookings().map(function (booking) {
+                    unavailableRooms_1 = [];
+                    bookingArr = makeBookings(numberOfBookings).map(function (booking) {
                         var randNumber = Math.round(Math.random() * 99);
-                        //@ts-ignore
                         booking.hotel = hotels_1[randNumber];
                         // @ts-ignore
                         booking.room = hotels_1[randNumber].rooms[Math.round(Math.random() * 99)];
+                        unavailableRooms_1.push(models_1.RoomModel.findByIdAndUpdate(booking.room, { unavailable: booking.dates }));
                         return booking;
                     });
-                    j = 0;
-                    _a.label = 4;
+                    return [4 /*yield*/, Promise.all(unavailableRooms_1)];
                 case 4:
-                    if (!(j < bookingArr.length)) return [3 /*break*/, 7];
-                    //@ts-ignore
-                    return [4 /*yield*/, models_1.RoomModel.findByIdAndUpdate(bookingArr[j].room, { unavailable: __spreadArray([], bookingArr[j].dates, true) })];
-                case 5:
-                    //@ts-ignore
                     _a.sent();
-                    _a.label = 6;
-                case 6:
-                    j++;
-                    return [3 /*break*/, 4];
-                case 7: return [4 /*yield*/, models_1.BookingModel.insertMany(bookingArr)];
-                case 8:
+                    return [4 /*yield*/, models_1.BookingModel.insertMany(bookingArr)];
+                case 5:
                     _a.sent();
                     console.log("SEED DATA GENERATED");
-                    return [3 /*break*/, 10];
-                case 9:
+                    return [3 /*break*/, 8];
+                case 6:
                     err_1 = _a.sent();
+                    return [4 /*yield*/, Promise.all([
+                            mongoose_1.default.connection.dropCollection("bookings"),
+                            mongoose_1.default.connection.dropCollection("hotels"),
+                            mongoose_1.default.connection.dropCollection("rooms")
+                        ])];
+                case 7:
+                    _a.sent();
                     console.error(err_1);
-                    return [3 /*break*/, 10];
-                case 10: return [2 /*return*/];
+                    return [3 /*break*/, 8];
+                case 8: return [2 /*return*/];
             }
         });
     });
 }
-combine();
+combine(10000, 100, 5000);

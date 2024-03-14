@@ -1,5 +1,5 @@
 <app-search></app-search>
-<router-outlet></router-outlet>
+<router-outlet (activate)="marketingView = false" (deactivate)="marketingView = true"></router-outlet>
 
 <div id="marketing-stuff" *ngIf="marketingView">
     <h1>Marketing Stuff!</h1>

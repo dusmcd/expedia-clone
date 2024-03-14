@@ -1,1 +1,89 @@
-<h1>Results!</h1>
+<div id="results-page">
+  <section id="search-filters">
+    <div class="form-check form-switch form-check-reverse card">
+      <div class="card-body" id="compareProperties-card">
+        <label class="form-check-label" for="compareProperties">Compare Properties</label>
+        <input class="form-check-input" type="checkbox" role="switch" id="compareProperties">
+      </div>
+    </div>
+    <hr>
+    <h5 class="mt-4">Search by property name</h5>
+    <div class="input-group mb-3">
+      <i class="bi bi-search input-group-text" id="basic-addon1"></i>
+      <input type="text" class="form-control" placeholder="e.g. Marriott" aria-label="filterProperty" aria-describedby="basic-addon1">
+    </div>
+    <hr>
+    <h5 class="mt-4">Filter by</h5>
+    <p>Popular Filters</p>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        Wifi
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        Pool
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        Breakfast
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        Room Service
+      </label>
+    </div>
+    <p class="mt-4">Price per night</p>
+    <div id="price-filter">
+      <div class="input-group me-2">
+        <input type="text" class="form-control" placeholder="Min">
+      </div>
+      <div class="input-group ms-2">
+        <input type="text" class="form-control" placeholder="Max">
+      </div>
+    </div>
+  </section>
+  <section id="search-results">
+    <article class="card mb-3" style="max-width: 775px;" *ngFor="let result of results">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img [src]="result.image" class="img-fluid rounded-start" [alt]="result.owner">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{result.owner}} {{result.address.city}}</h5>
+              <span class="card-text amenity" *ngFor="let amenity of result.amenities">
+                @switch (amenity) {
+                  @case ("Wifi") {<i class="bi bi-wifi"></i>}
+                  @case ("Pool") {<i class="bi bi-person-walking"></i>}
+                  @case ("Breakfast") {<i class="bi bi-egg-fried"></i>}
+                  @case ("Room Service") {<i class="bi bi-person-raised-hand"></i>}
+                  @default {<i class="bi bi-wifi"></i>}
+                }
+                {{amenity}}
+              </span>
+              <p class="card-text">{{result.neighborhood}}</p>
+              <p class="card-text"><small class="text-body-secondary">{{result.description}}</small></p>
+              <div class="card-text reviews-price">
+                <div class="review-info">
+                  <button class="btn btn-success">9.5</button>
+                  <div>
+                    <div class="mb-0"><strong>Exceptional</strong></div>
+                    <div><small class="text-body-secondary">500 reviews</small></div>
+                  </div>
+                </div>
+                <div class="price-info"><strong>${{result.price}}</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+  </section>
+  <section id="ads"></section>
+</div>

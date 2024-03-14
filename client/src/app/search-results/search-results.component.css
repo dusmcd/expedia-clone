@@ -1,0 +1,83 @@
+#search-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 10px 0 15px;
+    
+}
+
+.reviews-price {
+    display: flex;
+    justify-content: space-between;
+}
+
+.review-info {
+    display: flex;
+    align-items: center;
+}
+
+.card-body p:nth-of-type(1) {
+    font-size: 0.9rem;
+}
+
+.review-info button {
+    font-weight: bold;
+    margin-right: 7px;
+    font-size: 0.75em;
+    padding: 3px 6px;
+    height: 70%;
+}
+
+.price-info {
+    font-size: 1.4em;
+}
+
+.amenity {
+    margin-right: 5px;
+    font-size: 0.8em;
+}
+
+#search-filters {
+    width: 20%;
+    margin: 30px auto;
+}
+
+
+
+#ads {
+    background-color: rosybrown;
+    height: 400px;
+    width: 15%;
+    margin: 30px auto; 
+}
+
+#results-page {
+    display: flex;
+    justify-content: space-around;
+}
+
+.review-info strong {
+    font-size: 0.9rem;
+}
+
+.img-fluid {
+    height: 100%;
+}
+
+#compareProperties-card {
+    text-align: center;
+}
+
+#compareProperties-card label {
+    font-size: 0.9em;
+}
+
+#search-filters p {
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+#price-filter {
+    display: flex;
+    justify-content: space-between;
+}

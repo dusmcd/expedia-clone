@@ -34,7 +34,6 @@ app.use((req, res) => {
 const port = process.env.PORT || 8080;
 app.listen(port, async () => {
     try {
-        // @ts-ignore
         await mongoose_1.default.connect(dbUri);
         console.log("DB Connected");
         console.log(`Server listening on port ${port}`);
