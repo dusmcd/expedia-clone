@@ -1,8 +1,9 @@
 import express from "express";
 export const router = express.Router();
-import { getHotelsFromSearch } from "../contollers/hotels";
+import hotelController from "../controllers/hotels";
 
-router.get("/", getHotelsFromSearch);
+router.get("/", hotelController.getHotelsFromSearch);
+router.get("/:id", hotelController.getHotelToShow);
 
 
 

@@ -7,6 +7,7 @@ export interface SearchDate {
 
 export interface SearchHotel {
     location: string;
-    dates: string;
+    fromDate: string;
+    toDate: string;
     guests: number;
 }
