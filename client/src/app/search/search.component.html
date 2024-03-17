@@ -11,18 +11,48 @@
             </div>
           
             <div class="col-12">
-              <label class="visually-hidden" for="dates">Dates</label>
+              <div class="dp-hidden position-absolute">
+                <label class="visually-hidden" for="dates">Dates</label>
+                <div class="input-group">
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="dates"
+                      formControlName="dates" 
+                      ngbDatepicker
+                      #d="ngbDatepicker"
+                      [autoClose]="'outside'"
+                      (dateSelect)="onDateSelection($event)"
+                      [displayMonths]="2"
+                      [dayTemplate]="t"
+                      outsideDays="hidden"
+                      [startDate]="fromDate!"
+                      >
+                </div>
+              </div>
+              <ng-template #t let-date let-focused="focused">
+                <span
+                  class="custom-day"
+                  [class.focused]="focused"
+                  [class.range]="isRange(date)"
+                  [class.faded]="isHovered(date) || isInside(date)"
+                  (mouseenter)="hoveredDate = date"
+                  (mouseleave)="hoveredDate = null"
+                >
+                  {{ date.day }}
+                </span>
+              </ng-template>
               <div class="input-group">
-                  <button type="button" class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()"></button>
-                  <input 
-                    type="text" 
-                    class="form-control" 
-                    id="dates" 
-                    placeholder="Dates"
-                    formControlName="dates"
-                    ngbDatepicker
-                    #d="ngbDatepicker"
-                    >
+                <input
+                  #dpFromToDate
+                  class="form-control"
+                  placeholder="Dates"
+                  name="dpFromToDate"
+                  [value]="formatter.format(fromDate) + '-' + formatter.format(toDate)"
+                />
+                <!-- (input)="fromDate = validateInput(fromDate, dpFromToDate.value)" -->
+
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
               </div>
             </div>
           
