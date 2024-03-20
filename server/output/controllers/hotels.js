@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const models_1 = require("../models");
 class HotelController {
-    MILLISECONDS_DAY = 8.64 * 10 ^ 7;
+    MILLISECONDS_DAY = 8.64 * Math.pow(10, 7);
     /*
         purpose: fill in dates in between the from and to dates provided by search
         params: fromDate and toDate from user
-        returns: array of dates in chronoligical order
+        returns: array of dates in chronological order
 
     */
     handleSearchDates(fromDate, toDate) {
@@ -14,6 +14,7 @@ class HotelController {
         if ((fromDate.valueOf() + this.MILLISECONDS_DAY) === toDate.valueOf())
             return [fromDate, toDate];
         const dateRange = [];
+        dateRange.push(fromDate);
         // initializing nextDate as one day after fromDate
         let nextDate = new Date(fromDate.valueOf() + this.MILLISECONDS_DAY);
         while (nextDate.valueOf() !== toDate.valueOf()) {
@@ -21,6 +22,7 @@ class HotelController {
             // increment by one day
             nextDate = new Date(nextDate.valueOf() + this.MILLISECONDS_DAY);
         }
+        dateRange.push(toDate);
         return dateRange;
     }
     /*
@@ -34,10 +36,10 @@ class HotelController {
             const toDate = req.query.toDate ? new Date(req.query.toDate.toString()) : new Date(Date.now() + this.MILLISECONDS_DAY * 3);
             const dates = this.handleSearchDates(fromDate, toDate);
             const searchParams = { location: req.query.location, guests: Number(req.query.guests), dates };
-            throw new Error("Stop!!!");
             const hotels = await models_1.HotelModel.find({ "address.city": searchParams.location }).populate({
                 path: "rooms",
-                match: { unavailable: { $ne: searchParams.dates }, capacity: { $gte: searchParams.guests } }
+                // find rooms where the unavailability does not equal dates searched by user
+                match: { unavailable: { $nin: searchParams.dates }, capacity: { $gte: searchParams.guests } }
             });
             const results = hotels
                 .filter(hotel => {
