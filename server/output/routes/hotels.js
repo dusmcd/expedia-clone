@@ -7,4 +7,5 @@ exports.router = void 0;
 const express_1 = __importDefault(require("express"));
 exports.router = express_1.default.Router();
 const hotels_1 = require("../contollers/hotels");
-exports.router.get("/", hotels_1.getHotelsFromSearch);
+const utils_1 = require("../utils");
+exports.router.get("/", (0, utils_1.asyncCatcher)(hotels_1.getHotelsFromSearch));
