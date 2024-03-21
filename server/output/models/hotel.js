@@ -30,11 +30,20 @@ const roomSchema = new mongoose_1.Schema({
     rate: Number,
     beds: Number,
     capacity: Number,
-    unavailable: [Date],
+    unavailable: [Number],
     roomType: {
         enum: ["King", "Queen", "Suite"],
         type: String
     }
+}, {
+    virtuals: {
+        unavailableDates: {
+            get() {
+                return this.unavailable.map((dateValue) => new Date(dateValue));
+            }
+        }
+    },
+    toJSON: { virtuals: true }
 });
 exports.RoomModel = mongoose_1.default.model("Rooms", roomSchema);
 const hotelVirtuals = {
@@ -43,7 +52,7 @@ const hotelVirtuals = {
             // @ts-ignore
             return this.rooms.map(room => room.rate).sort((a, b) => a - b)[0];
         }
-    }
+    },
 };
 const hotelSchema = new mongoose_1.Schema({
     address: {

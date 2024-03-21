@@ -12,17 +12,17 @@ class HotelController {
     handleSearchDates(fromDate, toDate) {
         // i.e., if there are no dates in between fromDate and toDate
         if ((fromDate.valueOf() + this.MILLISECONDS_DAY) === toDate.valueOf())
-            return [fromDate, toDate];
+            return [fromDate.valueOf(), toDate.valueOf()];
         const dateRange = [];
-        dateRange.push(fromDate);
+        dateRange.push(fromDate.valueOf());
         // initializing nextDate as one day after fromDate
         let nextDate = new Date(fromDate.valueOf() + this.MILLISECONDS_DAY);
         while (nextDate.valueOf() !== toDate.valueOf()) {
-            dateRange.push(nextDate);
+            dateRange.push(nextDate.valueOf());
             // increment by one day
             nextDate = new Date(nextDate.valueOf() + this.MILLISECONDS_DAY);
         }
-        dateRange.push(toDate);
+        dateRange.push(toDate.valueOf());
         return dateRange;
     }
     /*
@@ -31,28 +31,23 @@ class HotelController {
         returns: void
     */
     getHotelsFromSearch = async (req, res, next) => {
-        try {
-            const fromDate = req.query.fromDate ? new Date(req.query.fromDate.toString()) : new Date(Date.now());
-            const toDate = req.query.toDate ? new Date(req.query.toDate.toString()) : new Date(Date.now() + this.MILLISECONDS_DAY * 3);
-            const dates = this.handleSearchDates(fromDate, toDate);
-            const searchParams = { location: req.query.location, guests: Number(req.query.guests), dates };
-            const hotels = await models_1.HotelModel.find({ "address.city": searchParams.location }).populate({
-                path: "rooms",
-                // find rooms where the unavailability does not equal dates searched by user
-                match: { unavailable: { $nin: searchParams.dates }, capacity: { $gte: searchParams.guests } }
-            });
-            const results = hotels
-                .filter(hotel => {
-                // only want hotels that returned rooms that fit the criteria of the query
-                if (hotel.rooms.length)
-                    return true;
-                return false;
-            });
-            res.json(results);
-        }
-        catch (err) {
-            next(err);
-        }
+        const fromDate = req.query.fromDate ? new Date(req.query.fromDate.toString()) : new Date(Date.now());
+        const toDate = req.query.toDate ? new Date(req.query.toDate.toString()) : new Date(Date.now() + this.MILLISECONDS_DAY * 3);
+        const dates = this.handleSearchDates(fromDate, toDate);
+        const searchParams = { location: req.query.location, guests: Number(req.query.guests), dates };
+        const hotels = await models_1.HotelModel.find({ "address.city": searchParams.location }).populate({
+            path: "rooms",
+            // find rooms where the unavailability does not equal dates searched by user
+            match: { unavailable: { $nin: searchParams.dates }, capacity: { $gte: searchParams.guests } }
+        });
+        const results = hotels
+            .filter(hotel => {
+            // only want hotels that returned rooms that fit the criteria of the query
+            if (hotel.rooms.length)
+                return true;
+            return false;
+        });
+        res.json(results);
     };
     /*
         purpose: route handler to show single hotel; response with hotel that matches given id
@@ -60,18 +55,13 @@ class HotelController {
         returns: void
     */
     getHotelToShow = async (req, res, next) => {
-        try {
-            const date = req.query.dates && new Date(req.query.dates.toString());
-            const searchParams = { guests: Number(req.query.guests), dates: date };
-            const hotel = await models_1.HotelModel.findById(req.params.id).populate({
-                path: "rooms",
-                match: { unavailable: { $ne: searchParams.dates }, capacity: { $gte: searchParams.guests } }
-            });
-            res.json(hotel);
-        }
-        catch (err) {
-            next(err);
-        }
+        const date = req.query.dates && new Date(req.query.dates.toString());
+        const searchParams = { guests: Number(req.query.guests), dates: date };
+        const hotel = await models_1.HotelModel.findById(req.params.id).populate({
+            path: "rooms",
+            match: { unavailable: { $ne: searchParams.dates }, capacity: { $gte: searchParams.guests } }
+        });
+        res.json(hotel);
     };
 }
 exports.default = new HotelController();

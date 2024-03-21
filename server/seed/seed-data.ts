@@ -39,12 +39,12 @@ interface Room {
     rate: number;
     beds:  number;
     capacity: number;
-    unavailable?: Date[];
+    unavailable?: number[];
     roomType: string;
 }
 
 interface Booking {
-    dates: Date[];
+    dates: number[];
     payment: string;
     numberOfGuests: number;
     user: any;
@@ -102,11 +102,11 @@ function makeBookings(numberOfBookings: number) {
     for (let i = 1; i <= numberOfBookings; i++) {
         const randMonth = Math.round(Math.random() * 12) + 2
         const randDay = Math.round(Math.random() * 28);
-        const day1 = new Date(2024,randMonth,randDay)
+        const day1 = new Date(2024, randMonth, randDay)
         const endDate = new Date(day1.valueOf());
         endDate.setDate(day1.getDate() + 2);
         const booking: Booking = {
-            dates: [day1, endDate],
+            dates: [day1.valueOf(), new Date(day1.valueOf() + 8.64 * Math.pow(10, 7)).valueOf(), endDate.valueOf()],
             numberOfGuests: 2,
             payment: "Visa",
             user: new mongoose.Types.ObjectId()
@@ -116,7 +116,7 @@ function makeBookings(numberOfBookings: number) {
     return bookings;
 }
 
-async function combine(numberOfRooms: number, numberOfHotels: number, numberOfBookings: number) {
+async function uploadeToDB(numberOfRooms: number, numberOfHotels: number, numberOfBookings: number) {
     try {
         require("../secrets");
         await mongoose.connect(process.env.URI as string);
@@ -126,7 +126,6 @@ async function combine(numberOfRooms: number, numberOfHotels: number, numberOfBo
         const hotelArr = makeHotels(numberOfHotels).map(hotel => {
             hotel.rooms = new Array<Room>();
             for (let k = 1; k <= (numberOfRooms / numberOfHotels); k++) {
-                // pushing in 100 rooms per hotel (100 hotels and 10,000 rooms)
                 hotel.rooms.push(rooms[i]);
                 i++;
             }
@@ -137,10 +136,10 @@ async function combine(numberOfRooms: number, numberOfHotels: number, numberOfBo
         // associate booking with a hotel and a room
         const unavailableRooms: Promise<any>[] = [];
         const bookingArr = makeBookings(numberOfBookings).map(booking => {
-            const randNumber = Math.round(Math.random() * 99);
+            const randNumber = Math.round(Math.random() * (numberOfHotels - 1));
             booking.hotel = hotels[randNumber];
             // @ts-ignore
-            booking.room = hotels[randNumber].rooms[Math.round(Math.random() * 99)];
+            booking.room = hotels[randNumber].rooms[Math.round(Math.random() * ((numberOfRooms/numberOfHotels) - 1))];
             unavailableRooms.push(RoomModel.findByIdAndUpdate(booking.room, { unavailable: booking.dates }));
             return booking;
         });
@@ -158,4 +157,4 @@ async function combine(numberOfRooms: number, numberOfHotels: number, numberOfBo
     
 }
 
-combine(10000, 100, 5000);
+uploadeToDB(2000, 100, 5000);
