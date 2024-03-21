@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const bookingSchema = new Schema({
     dates: {
-        type: Array<Date>,
+        type: Array<Number>,
         required: true
     },
     room: {

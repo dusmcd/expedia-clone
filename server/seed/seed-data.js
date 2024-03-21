@@ -105,7 +105,7 @@ function makeBookings(numberOfBookings) {
         var endDate = new Date(day1.valueOf());
         endDate.setDate(day1.getDate() + 2);
         var booking = {
-            dates: [day1, endDate],
+            dates: [day1.valueOf(), new Date(day1.valueOf() + 8.64 * Math.pow(10, 7)).valueOf(), endDate.valueOf()],
             numberOfGuests: 2,
             payment: "Visa",
             user: new mongoose_1.default.Types.ObjectId()
@@ -133,7 +133,6 @@ function combine(numberOfRooms, numberOfHotels, numberOfBookings) {
                     hotelArr = makeHotels(numberOfHotels).map(function (hotel) {
                         hotel.rooms = new Array();
                         for (var k = 1; k <= (numberOfRooms / numberOfHotels); k++) {
-                            // pushing in 100 rooms per hotel (100 hotels and 10,000 rooms)
                             hotel.rooms.push(rooms_1[i_1]);
                             i_1++;
                         }
@@ -144,10 +143,10 @@ function combine(numberOfRooms, numberOfHotels, numberOfBookings) {
                     hotels_1 = _a.sent();
                     unavailableRooms_1 = [];
                     bookingArr = makeBookings(numberOfBookings).map(function (booking) {
-                        var randNumber = Math.round(Math.random() * 99);
+                        var randNumber = Math.round(Math.random() * (numberOfHotels - 1));
                         booking.hotel = hotels_1[randNumber];
                         // @ts-ignore
-                        booking.room = hotels_1[randNumber].rooms[Math.round(Math.random() * 99)];
+                        booking.room = hotels_1[randNumber].rooms[Math.round(Math.random() * ((numberOfRooms / numberOfHotels) - 1))];
                         unavailableRooms_1.push(models_1.RoomModel.findByIdAndUpdate(booking.room, { unavailable: booking.dates }));
                         return booking;
                     });
@@ -175,4 +174,4 @@ function combine(numberOfRooms, numberOfHotels, numberOfBookings) {
         });
     });
 }
-combine(10000, 100, 5000);
+combine(2000, 100, 5000);

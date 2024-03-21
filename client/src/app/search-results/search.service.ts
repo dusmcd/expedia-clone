@@ -11,6 +11,6 @@ export class SearchService {
   constructor(private http: HttpClient) { }
 
   getHotels(queryParams: SearchHotel) {
-    return this.http.get<Hotel[]>(`http://localhost:8080/api/hotels?location=${queryParams.location}&dates=${queryParams.dates}&guests=${queryParams.guests}`);
+    return this.http.get<Hotel[]>(`http://localhost:8080/api/hotels?location=${queryParams.location}&fromDate=${queryParams.fromDate}&toDate=${queryParams.toDate}&guests=${queryParams.guests}`);
   }
 }

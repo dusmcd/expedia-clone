@@ -1,9 +1,11 @@
 import express from "express";
 export const router = express.Router();
-import { getHotelsFromSearch } from "../contollers/hotels";
 import { asyncCatcher } from "../utils";
 
-router.get("/", asyncCatcher(getHotelsFromSearch));
+import hotelController from "../controllers/hotels";
+
+router.get("/", asyncCatcher(hotelController.getHotelsFromSearch));
+router.get("/:id", asyncCatcher(hotelController.getHotelToShow));
 
 
 

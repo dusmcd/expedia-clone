@@ -1,11 +1,13 @@
+import { NgbDate } from "@ng-bootstrap/ng-bootstrap";
+
 export interface SearchDate {
-    year: number;
-    month: number;
-    day: number;
+    from: NgbDate;
+    to: NgbDate
 }
 
 export interface SearchHotel {
     location: string;
-    dates: string;
+    fromDate: string;
+    toDate: string;
     guests: number;
 }
